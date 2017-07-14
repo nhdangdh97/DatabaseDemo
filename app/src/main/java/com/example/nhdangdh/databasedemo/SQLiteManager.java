@@ -21,9 +21,18 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     private Context context;
 
-    public SQLiteManager(Context context) {
+    private static SQLiteManager instance;
+
+    private SQLiteManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
         this.context = context;
+    }
+
+    public static synchronized SQLiteManager getInstance(Context context) {
+        if(instance == null) {
+            instance = new SQLiteManager(context.getApplicationContext());
+        }
+        return instance;
     }
 
     @Override
